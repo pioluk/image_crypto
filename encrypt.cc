@@ -44,8 +44,8 @@ int main(int argc, char *argv[])
           uint32_t pixel1 = get_pixel(image, i, j);
           uint32_t pixel2 = get_pixel(image, offset_x, offset_y);
 
-          pixel1 ^= r * g * b * i;
-          pixel2 ^= (~r) * (~g) * (~b) * j;
+          pixel1 ^= r * g * i;
+          pixel2 ^= (~g) * (~b) * j;
 
           set_pixel(image, i, j, pixel2);
           set_pixel(image, offset_x, offset_y, pixel1);
