@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <cstdlib>
+#include <ctime>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <fstream>
@@ -7,6 +8,9 @@
 
 int main(int argc, char *argv[])
 {
+  // TODO: use some CSPRNG, like bcrypt
+  srand(time(NULL));
+
   if (argc != 5) {
     fprintf(stderr, "Error: usage %s filename x y color_depth\n", argv[0]);
     return 1;
@@ -36,25 +40,20 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  std::ifstream random("/dev/urandom");
-
-  if (!random.is_open()) {
-    fprintf(stderr, "Error opening random");
-    return 1;
-  }
-
   for (int i = 0; i < width; ++i) {
     for (int j = 0; j < height; ++j) {
       if (depth == 1) {
-        uint8_t rgb[3];
-        random.read(reinterpret_cast<char*>(&rgb), 3);
+        uint8_t r, g, b;
+        r = (uint8_t) rand() % 256;
+        g = (uint8_t) rand() % 256;
+        b = (uint8_t) rand() % 256;
 
         set_pixel(image, i, j, SDL_MapRGB(image->format,
-                  rgb[0], rgb[1], rgb[2]));
+                  r, g, b));
       }
       else {
         uint8_t color;
-        random.read(reinterpret_cast<char*>(&color), 1);
+        color = (uint8_t) rand() % 256;
 
         set_pixel(image, i, j, SDL_MapRGB(image->format,
                   color, color, color));
