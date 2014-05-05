@@ -8,7 +8,6 @@
 
 int main(int argc, char *argv[])
 {
-  // TODO: use some CSPRNG, like bcrypt
   srand(time(NULL));
 
   if (argc != 5) {

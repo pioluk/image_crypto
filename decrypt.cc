@@ -29,18 +29,18 @@ int main(int argc, char *argv[])
   const int width      = image->w;
   const int height     = image->h;
 
-  for (int kj = 0; kj < key_height; ++kj) {
-    for (int ki = 0; ki < key_width; ++ki) {
+  for (int kj = key_height - 1; kj >= 0; --kj) {
+    for (int ki = key_width - 1; ki >= 0; --ki) {
       for (int j = height - 1; j >= 0; --j) {
-        for (int i = width - 1; i >= 0; --i) {
-          int32_t offset = 0;
+        for (int i = 0; i < width; ++i) {
+          uint32_t offset = 0;
           uint8_t r, g, b;
           SDL_GetRGB(get_pixel(key, (i/* + ki*/) % key_width, (j/* + kj*/) % key_height), key->format,
                      &r, &g, &b);
           offset = width * r * b * g;
 
-          int32_t offset_x = static_cast<int>(log2(offset + i * r * b - j * g)) % width;
-          int32_t offset_y = static_cast<int>(log2(offset + j * r * b - i * g)) % height;
+          uint32_t offset_x = /*static_cast<int>*/(/*log2*//*fabs*/(offset + i * r * g)) % width;
+          uint32_t offset_y = /*static_cast<int>*/(/*log2*//*fabs*/(offset + j * g * b)) % height;
 
           uint32_t pixel1 = get_pixel(image, i, j);
           uint32_t pixel2 = get_pixel(image, offset_x, offset_y);

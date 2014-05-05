@@ -33,15 +33,15 @@ int main(int argc, char *argv[])
   for (int kj = 0; kj < key_height; ++kj) {
     for (int ki = 0; ki < key_width; ++ki) {
       for (int j = 0; j < height; ++j) {
-        for (int i = 0; i < width; ++i) {
-          int32_t offset = 0;
+        for (int i = width - 1; i >= 0; --i) {
+          uint32_t offset = 0;
           uint8_t r, g, b;
           SDL_GetRGB(get_pixel(key, (i/* + ki*/) % key_width, (j/* + kj*/) % key_height), key->format,
                      &r, &g, &b);
           offset = width * r * b * g;
 
-          int32_t offset_x = static_cast<int>(log2(offset + i * r * b - j * g)) % width;
-          int32_t offset_y = static_cast<int>(log2(offset + j * r * b - i * g)) % height;
+          uint32_t offset_x = /*static_cast<int>*/(/*log2*//*fabs*/(offset + i * r * g)) % width;
+          uint32_t offset_y = /*static_cast<int>*/(/*log2*//*fabs*/(offset + j * g * b)) % height;
 
           uint32_t pixel1 = get_pixel(image, i, j);
           uint32_t pixel2 = get_pixel(image, offset_x, offset_y);
